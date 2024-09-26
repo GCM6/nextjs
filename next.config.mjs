@@ -5,6 +5,12 @@ const nextConfig = {
     pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
 };
 
-const withMDX = createMDX({});
+const withMDX = createMDX({
+    extension: /\.mdx?$/,
+    options: {
+        remarkPlugins: [],
+        rehypePlugins: [],
+    },
+});
 
 export default withMDX(nextConfig);
