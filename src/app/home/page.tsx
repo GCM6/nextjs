@@ -1,27 +1,27 @@
 import User from "../user/page";
 import styles from "./ui/home.module.css";
-
-async function getUser() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/users');
-  return res.json();
-}
+import { fetchRevenue } from "../lib/data";
 
 export default async function Home() {
-    const user = await getUser();
+  const revenues = await fetchRevenue();
   return (
-      <div className="flex flex-col gap-4 items-center justify-center h-screen">
-      <div className={ styles.shape }></div>
-    <User />
-
-
-<div className="w-6/12 shadow-cyan-500/20 shadow-lg rounded-lg p-4">
-    { user.map((user: any, index: number) => (
-      <div key={user.id}>
-        <div className={ `text-lg ${index % 2 === 0 ? 'text-red-500' : 'text-blue-500'}` }>用户名： { user.name }</div>
+    <div className="flex flex-col gap-4 items-center justify-center h-screen">
+      <div className={styles.shape}></div>
+      <div className="w-6/12 shadow-cyan-500/20 shadow-lg rounded-lg p-4">
+        {revenues.map((revenue: any, index: number) => (
+          <div className="flex justify-between" key={revenue.id}>
+            <div
+              className={`text-lg ${
+                revenue.revenue > 3000 ? "text-red-500" : "text-blue-500"
+              }`}
+            >
+              month: {revenue.month}
+            </div>
+            <div className={`text-lg font-bold ${ revenue.revenue > 3000 ? "text-red-500" : "text-blue-500"
+              }`}>revenue: { revenue.revenue }</div>
+          </div>
+        ))}
       </div>
-    ))}
-</div>
-
     </div>
-    );
+  );
 }

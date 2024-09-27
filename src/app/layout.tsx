@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { inter } from "./ui/fonts";
 import Sidenav  from "./ui/dashboard/sidenav";
+import { Providers } from "./providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,7 +30,8 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
-      >
+        >
+        <Providers>
         <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
           <div className="w-full flex-none md:w-64 bg-slate-50">
           <Sidenav />
@@ -38,7 +40,9 @@ export default function RootLayout({
           {children}
           </div>
         </div>
+        </Providers>
       </body>
     </html>
+
   );
 }
