@@ -1,9 +1,18 @@
-import User from "../user/page";
+
 import styles from "./ui/home.module.css";
 import { fetchRevenue } from "../lib/data";
 
-export default async function Home() {
-  const revenues = await fetchRevenue();
+export default async function Home({ searchParams }: { searchParams: { query: string } }) {
+  async function test(){
+    // 2812b5514994576c0a17e78ed2a44e09-c-app
+    const data = await fetch('https://quote.tradeswitcher.com/quote-stock-b-api/depth-tick?token=2812b5514994576c0a17e78ed2a44e09-c-app&query={}').then(res => res.json());
+    console.log("data-----",data);
+    
+   }
+   test();
+
+  const query = searchParams?.query || ''
+  const revenues = await fetchRevenue(query);
   return (
     <div className="flex flex-col gap-4 items-center justify-center h-screen">
       <div className={styles.shape}></div>

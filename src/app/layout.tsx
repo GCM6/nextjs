@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { inter } from "./ui/fonts";
 import Sidenav  from "./ui/dashboard/sidenav";
+import Header from "./header/page";
 import { Providers } from "./providers";
 
 const geistSans = localFont({
@@ -32,13 +33,16 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
         >
         <Providers>
-        <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-          <div className="w-full flex-none md:w-64 bg-slate-50">
+        <div>
+          <Header />
+          <main className="flex h-screen flex-col md:flex-row md:overflow-hidden pt-16">
+          <div className="w-full flex-none md:w-64 ">
           <Sidenav />
           </div>
           <div className="flex-grow p-6 md:overflow-y-auto md:p-12 ">
           {children}
           </div>
+          </main>
         </div>
         </Providers>
       </body>

@@ -15,7 +15,7 @@ export async function fetchUser() {
   return data.rows;
 }
 
-export async function fetchRevenue() {
+export async function fetchRevenue(query: string) {
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
@@ -23,7 +23,7 @@ export async function fetchRevenue() {
     // console.log('Fetching revenue data...');
     // await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    const data = await sql<Revenue>`SELECT * FROM revenue`;
+    const data = await sql<Revenue>`SELECT * FROM revenue WHERE month ILIKE ${`%${query}%`}`;
 
     // console.log('Data fetch completed after 3 seconds.');
 

@@ -4,7 +4,7 @@ export default function Sidenav() {
   const menu = [
     {
       name: "首页",
-      path: "/home",
+      path: "/",
     },
     {
       name: "用户",
@@ -12,7 +12,7 @@ export default function Sidenav() {
     },
   ];
   return (
-    <div className="w-full">
+    <div className="w-full pt-[30px]">
       <div className="w-full h-full bg-white">
         <div className="w-full h-full bg-white">
           <div className="w-full h-full bg-white">

@@ -1,14 +1,24 @@
+
+import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image, Skeleton} from "@nextui-org/react";
+
+
 import { fetchUser } from "../lib/data";
 import type {  User } from "../lib/definitions";
-import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image} from "@nextui-org/react";
 
-export default async function User() {
+export default async function User({ searchParams }: { searchParams: { query: string } }) {
+
+  const query = searchParams?.query || ''
+
+  console.log("查询条件", query);
+  
 
   const users = await fetchUser();
   
 
  return (
   <Card className="max-w-[400px]">
+
+  <Skeleton isLoaded={users.length > 0}>
     <CardHeader className="flex gap-3">
       <Image
         alt="nextui logo"
@@ -21,16 +31,18 @@ export default async function User() {
         <p className="text-small text-default-500">{users[0].email}</p>
       </div>
     </CardHeader>
+    </Skeleton>
+   
 
     <Divider />
 
     <CardBody>
-      <p>下午好！</p>
+      <p>下午好！{ users.length }{ query }</p>
     </CardBody>
 
     <CardFooter>
       <Link>
-        <p>查看更多</p>
+        <p className="cursor-pointer">查看更多</p>
       </Link>
     </CardFooter>
   </Card>
