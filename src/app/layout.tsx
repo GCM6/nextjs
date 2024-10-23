@@ -4,7 +4,7 @@ import "./globals.css";
 import { inter } from "./ui/fonts";
 import Sidenav  from "./ui/dashboard/sidenav";
 import Header from "./header/page";
-import { Providers } from "./providers";
+import { Providers } from "../components/Providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,7 +37,7 @@ export default function RootLayout({
           <Header />
           <main className="flex h-screen flex-col md:flex-row md:overflow-hidden pt-16">
           <div className="w-full flex-none md:w-64 ">
-          <Sidenav />
+          {/* <Sidenav /> */}
           </div>
           <div className="flex-grow p-6 md:overflow-y-auto md:p-12 ">
           {children}

@@ -16,6 +16,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [nextui()],
+  // 排版插件
+  plugins: [nextui(), require("@tailwindcss/typography")],
 };
+
 export default config;

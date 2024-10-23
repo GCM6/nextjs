@@ -1,3 +1,8 @@
+---
+title: 'nextjs 学习笔记'
+date: '2024-10-21'
+background: 'https://fastly.picsum.photos/id/24/200/300.jpg?hmac=UogR0hFxP5yLDwcZpCawObw8Bzm9vnzci_7eMrbqn_s'
+---
 # nextjs 学习笔记
 
 
@@ -53,7 +58,7 @@ HomePage、 Header、MainConent  是rsc， 而ColorProvider 是client 组件，�
 streaming 是服务器组件的特性，允许服务器组件在生成HTML内容时逐步发送数据，而不是一次性发送所有数据。通过把路由分解成更小的块，可以减少页面加载时间，提高用户体验。
 
 ***在nextjs中实现streaming传输***
-* 对于特定组件使用<Suspense>包裹
+* 对于特定组件使用Suspense包裹
 ### 确定Suspense的边界
 
 Suspense 的界限取决于一下几点：

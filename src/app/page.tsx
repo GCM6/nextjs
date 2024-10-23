@@ -1,9 +1,12 @@
+import { getSortedPostsData, type PostMetaData } from "@/app/lib/posts";
+import { IndexList } from "@/components/IndexList";
 
-import IndexAnimate from "./ui/indexAnimate/page";
+export default async function Home() {
+  const allPostsData: PostMetaData[] = await getSortedPostsData();
 
-export default function Home() {
-
- return (
-  <IndexAnimate />
- )
+  return (
+    <>
+      <IndexList data={allPostsData} />
+    </>
+  );
 }

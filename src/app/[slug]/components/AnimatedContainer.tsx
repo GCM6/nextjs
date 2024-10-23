@@ -1,10 +1,10 @@
-"use client";
+'use client'
+
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './ui/detailPage.module.css';
-import { getPostBySlug } from '@/app/lib/posts';
+import styles from "../ui/page.module.css";
 
-export default function DetailPage({ searchParams }: { searchParams: { id: string } }) {
+export default function AnimatedContainer({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const [isAnimating, setIsAnimating] = useState(true);
@@ -12,9 +12,6 @@ export default function DetailPage({ searchParams }: { searchParams: { id: strin
   useEffect(() => {
     const animatedElement = JSON.parse(sessionStorage.getItem('animatedElement') || '{}');
     const container = containerRef.current;
-
-    console.log("animatedElement", animatedElement);
-    
 
     if (container && animatedElement.left) {
       // 设置初始状态
@@ -24,7 +21,6 @@ export default function DetailPage({ searchParams }: { searchParams: { id: strin
       container.style.width = `${animatedElement.width}px`;
       container.style.height = `${animatedElement.height}px`;
       container.style.backgroundColor = animatedElement.backgroundColor;
-      container.innerHTML = animatedElement.content;
 
       // 触发动画
       requestAnimationFrame(() => {
@@ -35,10 +31,13 @@ export default function DetailPage({ searchParams }: { searchParams: { id: strin
       container.addEventListener('transitionend', () => {
         setIsAnimating(false);
       }, { once: true });
+    } else {
+      setIsAnimating(false);
     }
   }, []);
 
   const handleClose = () => {
+    console.log('handleClose');
     if (isAnimating) return;
 
     const container = containerRef.current;
@@ -58,10 +57,10 @@ export default function DetailPage({ searchParams }: { searchParams: { id: strin
 
   return (
     <div className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ${isAnimating ? 'pointer-events-none' : ''}`} onClick={handleClose}>
-      <div ref={containerRef} className={`${styles.animatedElement} bg-white rounded-lg p-8`} onClick={(e) => e.stopPropagation()}>
-        <h1 className="text-3xl mb-4">Detail Page for Item {searchParams.id}</h1>
-        <p>This is the expanded content for item {searchParams.id}.</p>
+      <div ref={containerRef} className={`${styles.animatedElement}`} onClick={(e) => e.stopPropagation()}>
+        {children}
       </div>
     </div>
   );
 }
+
