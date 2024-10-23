@@ -1,6 +1,7 @@
 
 import styles from "./ui/home.module.css";
 import { fetchRevenue } from "../lib/data";
+import { MDXRemote } from 'next-mdx-remote/rsc'
 
 export default async function Home({ searchParams }: { searchParams: { query: string } }) {
   async function test(){
@@ -15,6 +16,14 @@ export default async function Home({ searchParams }: { searchParams: { query: st
   const revenues = await fetchRevenue(query);
   return (
     <div className="flex flex-col gap-4 items-center justify-center h-screen">
+      <div className="wrapper">
+      <MDXRemote
+      source={`# Hello World
+
+      This is from Server Components!
+      `}
+    />
+    </div>
       <div className={styles.shape}></div>
       <div className="w-6/12 shadow-cyan-500/20 shadow-lg rounded-lg p-4">
         {revenues.map((revenue: any, index: number) => (
@@ -31,6 +40,20 @@ export default async function Home({ searchParams }: { searchParams: { query: st
           </div>
         ))}
       </div>
+      <div className="prose sm:prose-xl">
+  <h1>This is Title</h1>
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit obcaecati
+    temporibus delectus et eaque non enim, consequatur illum velit sapiente
+    molestiae soluta voluptatibus omnis quasi dolores maxime officiis at vero!
+  </p>
+  <p>
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut dignissimos
+    quasi pariatur nobis ipsa ullam! Commodi modi, saepe eveniet soluta numquam
+    quasi ducimus, corrupti architecto distinctio dignissimos alias nesciunt
+    doloribus?
+  </p>
+</div>
     </div>
   );
 }
