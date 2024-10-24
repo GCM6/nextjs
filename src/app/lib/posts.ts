@@ -9,7 +9,6 @@ export type PostMetaData = {
         background?: string;
         slug: string;
     }
-    content: string;
 }
 
 const postsDirectory = path.join(process.cwd(), "src/posts");
@@ -27,23 +26,22 @@ export async function getSortedPostsData() {
         return fileNames.map((fileName) => {
             const fullPath = path.join(postsDirectory, dir.name, fileName);
             const fileContents = fs.readFileSync(fullPath, { encoding: 'utf8' });
-            const { data, content } = matter(fileContents);
+            const { data } = matter(fileContents);
 
-            const slug = fileName.replace(/\.mdx?$/, '');
+            const slug = `${dir.name}-${fileName.replace(/\.mdx?$/, '')}`;
             return {
                 meta: {
                     slug,
-                    id: slug,
+                    id: fileName,
                     title: data.title,
                     date: data.date,
                     background: data.background,
                 },
-                content,
             };
         });
     });
 
-    //   // sort posts by date
+    // sort posts by date
     return allPostsData.sort((a, b) => {
         if (a.meta.date < b.meta.date) {
             return 1;
@@ -56,7 +54,8 @@ export async function getSortedPostsData() {
 
 
 export function getPostBySlug(slug: string) {
-    const fullPath = path.join(postsDirectory, slug, `${slug}.mdx`);
+    const [dir, fileName] = slug.split('-');
+    const fullPath = path.join(postsDirectory, dir, `${fileName}.mdx`);
     const fileContents = fs.readFileSync(fullPath, { encoding: 'utf8' });
 
     return fileContents;

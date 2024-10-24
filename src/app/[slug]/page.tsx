@@ -5,6 +5,7 @@ import "./ui/markdown.css";
 import AnimatedContainer from './components/AnimatedContainer';
 
 export default function Page({ params }: { params: { slug: string } }) {
+    
   const content = getPostBySlug(params.slug);
 
   return (
