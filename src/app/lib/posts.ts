@@ -18,26 +18,29 @@ const postsDirectory = path.join(process.cwd(), "src/posts");
 export async function getSortedPostsData() {
     const fileDirs = fs.readdirSync(postsDirectory, { withFileTypes: true });
 
+
+
     //get all posts data
-    const allPostsData: PostMetaData[] = fileDirs.map((dir) => {
-        const id = dir.name;
-        const fullPath = path.join(postsDirectory, dir.name, `${dir.name}.mdx`);
+    const allPostsData: PostMetaData[] = fileDirs.flatMap((dir) => {
+        const fileNames = fs.readdirSync(path.join(postsDirectory, dir.name));
 
+        return fileNames.map((fileName) => {
+            const fullPath = path.join(postsDirectory, dir.name, fileName);
+            const fileContents = fs.readFileSync(fullPath, { encoding: 'utf8' });
+            const { data, content } = matter(fileContents);
 
-        const fileContents = fs.readFileSync(fullPath, { encoding: 'utf8' });
-        const matterResult = matter(fileContents);
-
-        //  combine data with id
-        return {
-            meta: {
-                id,
-                slug: id,
-                title: matterResult.data.title,
-                date: matterResult.data.date,
-                background: matterResult.data?.background,
-            },
-            content: fileContents,
-        } 
+            const slug = fileName.replace(/\.mdx?$/, '');
+            return {
+                meta: {
+                    slug,
+                    id: slug,
+                    title: data.title,
+                    date: data.date,
+                    background: data.background,
+                },
+                content,
+            };
+        });
     });
 
     //   // sort posts by date

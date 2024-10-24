@@ -32,7 +32,8 @@ export function IndexList(props: BlogProps) {
   }
 
   return (
-    <div className="flex flex-wrap gap-6 justify-center p-6">
+    
+    <div className="flex flex-wrap gap-6 justify-start p-6">
       {data?.map((post) => (
         <div
           key={post.meta.title}
@@ -55,7 +56,6 @@ export function IndexList(props: BlogProps) {
           <div className="p-5 text-center flex-grow flex flex-col justify-center">
             <h2 className="text-2xl font-bold text-white mb-3 line-clamp-2 hover:line-clamp-none transition-all duration-300">
               {post.meta.title}
-              {post.meta.slug}
             </h2>
             <p className="text-sm text-white opacity-80 mt-2">
               {post.meta.date}
