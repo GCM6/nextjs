@@ -4,8 +4,25 @@ let activeEffect = null
 const bucket = new WeakMap();
 const effectStack = [];
 const jobQueue = new Set();
-const p = Promise.resolve();
 
+let arrInstrumentations = {};
+let shouldTrack = true;
+['push'].forEach(method => {
+    const originMethod = Array.prototype[method];
+
+    console.log("originMethod", originMethod);
+    
+    arrInstrumentations[method] = function(...args){
+        shouldTrack = false;
+       const res =  originMethod.apply(this, args);
+        shouldTrack = true;
+        return res;
+    }
+})
+
+
+
+const p = Promise.resolve();
 let isFlushing = false;
 const flushJob = () => {
     if(isFlushing) return;
@@ -50,7 +67,10 @@ const effect = (fn, options = {}) => {
 
 const track = (target, key) => {
 
-    if(!activeEffect) return target[key]
+    console.log("shouldTrack", shouldTrack, key,target);
+    
+
+    if(!activeEffect || !shouldTrack) return 
 
         let depsMap = bucket.get(target)
         if(!depsMap) {
@@ -176,13 +196,41 @@ const data = {
     foo: 1,
     bar: 2
 }
+const reactiveMap = new Map();
+function reactive(obj){
+    const existProxy = reactiveMap.get(obj);
+    if(existProxy) return existProxy;
+    const proxy = createReactive(obj);
+    reactiveMap.set(obj, existProxy);
+    return proxy;
+}
+
+function createReactive(obj){
+    return new Proxy(obj, {
+        get(target, key, receiver){
+            if(Array.isArray(target) && arrInstrumentations.hasOwnProperty(key)){
+                return Reflect.get(arrInstrumentations, key, receiver)
+            }
+
+            track(target, key);
+            
+            return Reflect.get(target, key, receiver)
+        },
+        set(target, key, newVal){
+            console.log("set--------", target, newVal);
+            
+            target[key] = newVal
+            trigger(target, key)
+        }
+    })
+}
 
 const obj = new Proxy(data, {
     get(target, key, receiver){
-       console.log("get", target === receiver.raw);
+    //    console.log("get", target === receiver.raw);
        
         track(target, key)
-        return target[key]
+        return Reflect.get(target, key, receiver)
     },
     set(target, key, newVal){
         // 如果是true则是set 不然是add 新属性
@@ -218,3 +266,14 @@ effect(() => {
 setTimeout(() => {
     obj.foo++;
 }, 1000)
+
+
+
+
+const arr = reactive([1]);
+effect(() => {
+    // console.log('effect', arr);
+    arr.push(1);
+})
+
+

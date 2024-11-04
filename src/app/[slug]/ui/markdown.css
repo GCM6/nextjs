@@ -41,9 +41,7 @@
 }
 
 .markdown :not(pre)>code {
-  border-radius: 10px;
-  background: var(--inlineCode-bg);
-  color: var(--inlineCode-text);
+  background-color: #f6f8fa;
   padding: 0.15em 0.2em 0.05em;
   white-space: normal;
 }
@@ -51,16 +49,15 @@
 .markdown pre {
   @apply -mx-4 mb-8 overflow-y-auto p-4 text-sm;
   clip-path: var(--path);
-  border-top-right-radius: var(--radius-top);
-  border-top-left-radius: var(--radius-top);
-  border-bottom-right-radius: var(--radius-bottom);
-  border-bottom-left-radius: var(--radius-bottom);
   padding-top: var(--padding-top);
   padding-bottom: var(--padding-bottom);
+  background-color: #f6f8fa;
+  white-space: normal;
 }
 
 .markdown pre code {
   width: auto;
+  
 }
 
 .markdown blockquote {
@@ -80,10 +77,11 @@
   margin-bottom: 0;
 }
 
+
 .markdown ul {
   margin-top: 0;
   padding-bottom: 0;
-  padding-left: 0;
+  padding-left: 32px;
   padding-right: 0;
   padding-top: 0;
   margin-bottom: 1.75rem;
