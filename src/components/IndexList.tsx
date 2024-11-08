@@ -32,8 +32,7 @@ export function IndexList(props: BlogProps) {
   }
 
   return (
-    
-    <div className="flex flex-wrap gap-6 justify-start p-6">
+    <div className="grid grid-flow-row auto-rows-max gap-3 p-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(288px, 1fr))' }}>
       {data?.map((post) => (
         <div
           key={post.meta.title}

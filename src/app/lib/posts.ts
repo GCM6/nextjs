@@ -23,9 +23,12 @@ export async function getSortedPostsData() {
     const allPostsData: PostMetaData[] = fileDirs.flatMap((dir) => {
         const fileNames = fs.readdirSync(path.join(postsDirectory, dir.name));
 
-        return fileNames.map((fileName) => {
+
+        return fileNames.filter(fileName => fileName.endsWith('.mdx')).map((fileName) => {
             const fullPath = path.join(postsDirectory, dir.name, fileName);
+            
             const fileContents = fs.readFileSync(fullPath, { encoding: 'utf8' });
+
             const { data } = matter(fileContents);
 
             const slug = `${dir.name}-${fileName.replace(/\.mdx?$/, '')}`;

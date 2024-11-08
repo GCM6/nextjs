@@ -208,6 +208,8 @@ function reactive(obj){
 function createReactive(obj){
     return new Proxy(obj, {
         get(target, key, receiver){
+            console.log("get", target, key, receiver);
+            
             if(Array.isArray(target) && arrInstrumentations.hasOwnProperty(key)){
                 return Reflect.get(arrInstrumentations, key, receiver)
             }
@@ -217,10 +219,14 @@ function createReactive(obj){
             return Reflect.get(target, key, receiver)
         },
         set(target, key, newVal){
-            console.log("set--------", target, newVal);
+            try {
+                console.log("set--------", target, newVal);
             
             target[key] = newVal
             trigger(target, key)
+            } catch (error) {
+                
+            }
         }
     })
 }
@@ -276,4 +282,24 @@ effect(() => {
     arr.push(1);
 })
 
+
+
+const m = {
+    add(){
+        console.log(this.raw);
+        
+    }
+}
+
+function cr(){
+    return new Proxy(new Set([1,2,3]), {
+        get(target, key, receiver){
+            
+            return m[key]
+        }
+    })
+}
+
+const p = cr();
+p.add();
 
